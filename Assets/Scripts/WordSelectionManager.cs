@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using System.Collections.Generic;
 
 public class WordSelectionManager : MonoBehaviour
@@ -62,5 +62,50 @@ public class WordSelectionManager : MonoBehaviour
         feedbackManager.HideFeedback();
         Debug.Log("Selection cleared and ready for new selection.");
     }
-}
+}*/
 
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+public class WordSelectionManager : MonoBehaviour
+{
+    public event Action<bool> OnWordsValidated; // Event for notifying validation result
+    public SelectedWordsDisplay wordsDisplay;   // View for displaying selected words
+    public WordValidator wordValidator;         // Model for validating words
+    public LevelData currentLevelData;          // Model for level data
+
+    private List<string> selectedWords = new List<string>();
+
+    private void Start()
+    {
+        ClearSelection();
+    }
+
+    public void SelectWord(string word)
+    {
+        if (selectedWords.Count < 2)
+        {
+            selectedWords.Add(word);
+            wordsDisplay.UpdateDisplay(selectedWords);
+
+            if (selectedWords.Count == 2)
+            {
+                ValidateSelectedWords();
+            }
+        }
+    }
+
+    private void ValidateSelectedWords()
+    {
+        bool isCorrect = wordValidator.Validate(selectedWords, currentLevelData.correctWords);
+        OnWordsValidated?.Invoke(isCorrect); // Notify GameManager about validation result
+        Invoke(nameof(ClearSelection), 1.5f); // Delay to allow feedback to be displayed
+    }
+
+    public void ClearSelection()
+    {
+        selectedWords.Clear();
+        wordsDisplay.ClearDisplay();
+    }
+}

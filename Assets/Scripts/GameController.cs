@@ -1,6 +1,5 @@
-using UnityEngine;
+/*using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using System.Collections;
 
 public class GameController : MonoBehaviour
@@ -55,5 +54,53 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1.6f); // Wait for feedback to be hidden
         nextLevelPanel.SetActive(true);
         Debug.Log("Half of the correct words matched! Level complete.");
+    }
+}
+*/
+
+using UnityEngine;
+
+public class GameController : MonoBehaviour
+{
+    public LevelManager levelManager;
+    public LevelUI levelUI;
+    public WordSelectionManager wordSelectionManager;
+    public FeedbackManager feedbackManager;
+    public GameObject nextLevelPanel;
+
+    private void Start()
+    {
+        InitializeLevel();
+        wordSelectionManager.OnWordsValidated += HandleWordValidation; // Subscribe to word validation event
+    }
+
+    private void InitializeLevel()
+    {
+        nextLevelPanel.SetActive(false);
+        levelUI.DisplayWords(levelManager.currentLevel.words);
+    }
+
+    private void HandleWordValidation(bool isCorrect)
+    {
+        if (isCorrect)
+        {
+            feedbackManager.DisplayFeedback("Correct!", Color.green);
+            Invoke(nameof(LevelComplete), feedbackManager.feedbackDisplayTime);
+        }
+        else
+        {
+            feedbackManager.DisplayFeedback("Wrong! Try Again.", Color.red);
+        }
+    }
+
+    private void LevelComplete()
+    {
+        nextLevelPanel.SetActive(true);
+        Debug.Log("Level Complete!");
+    }
+
+    private void OnDestroy()
+    {
+        wordSelectionManager.OnWordsValidated -= HandleWordValidation; // Unsubscribe from event
     }
 }

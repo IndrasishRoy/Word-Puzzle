@@ -1454,10 +1454,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dbfa464e043c7e489608ddeebe33215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevelData: {fileID: 11400000, guid: 4521778c1d0031b4d86a4742e450f4cc, type: 2}
   wordsDisplay: {fileID: 1425340495}
-  feedbackManager: {fileID: 886022160}
   wordValidator: {fileID: 1621204635}
+  currentLevelData: {fileID: 11400000, guid: 4521778c1d0031b4d86a4742e450f4cc, type: 2}
 --- !u!1 &1524885633
 GameObject:
   m_ObjectHideFlags: 0
@@ -2000,6 +1999,10 @@ PrefabInstance:
       propertyPath: gameController
       value: 
       objectReference: {fileID: 1096693583}
+    - target: {fileID: 9161696709492552361, guid: c9d5b04a8c7312242b5183456335f1cf, type: 3}
+      propertyPath: wordSelectionManager
+      value: 
+      objectReference: {fileID: 1487401801}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
